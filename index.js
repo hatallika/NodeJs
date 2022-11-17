@@ -1,7 +1,7 @@
 const colors = require('colors/safe')
 let [n1,n2] = process.argv.slice(2);
 
-const colorsItems = [colors.green, colors.yellow, colors.red];
+const colorsItems = [colors.red, colors.green, colors.yellow];
 
 function isSimple (n) {
     if (n === 1 || n === 0) {
