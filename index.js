@@ -1,4 +1,4 @@
-const colors = require('colors/safe')
+const colors = require('colors/safe');
 let [n1,n2] = process.argv.slice(2);
 
 const colorsItems = [colors.red, colors.green, colors.yellow];
