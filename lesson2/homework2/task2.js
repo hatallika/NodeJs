@@ -7,18 +7,6 @@ class Timer {
     }
 }
 
-const delay = (ms) => {
-    return new Promise( (resolve, reject) => {
-
-        setInterval(resolve, ms);
-    })
-}
-
-const generateNewTimer = (timeStr) => {
-    console.log('generate new timer');
-    return delay(1000).then( () => new Timer(timeStr));
-}
-
 
 class myHandler{
 
