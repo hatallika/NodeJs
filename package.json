@@ -7,6 +7,7 @@
     "dev": "node index.js",
     "task": "node lesson2/homework2/task2.js",
     "lesson2": "node lesson2/homework2/task2.js 4-22-11-2023 4-22-12-2022",
+    "lesson3": "node lesson3/hw_lesson3.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Hatallika",
