@@ -1,5 +1,5 @@
-const fs = require('fs');
-
+// const fs = require('fs');
+import fs from 'fs';
 
 const config = {
     file: "access_tmp.log",
@@ -8,8 +8,11 @@ const config = {
     suffix: "_requests.log",
 }
 
-const {Transform} = require("stream");
-const {EOL} = require("os"); //\n\r
+// const {Transform} = require("stream");
+// const {EOL} = require("os"); //\n\r
+import {EOL} from "os";
+import {Transform} from "stream"
+
 
 
 const searchIpAndWriteLog = (ip, stream) => {
