@@ -4,6 +4,7 @@ import path from 'path';
 // const __dirname = process.cwd();
 import readline from 'readline';
 import os from "os";
+import colors from "colors";
 const {EOL} = os;
 
 const rl = readline.createInterface({
@@ -15,7 +16,7 @@ const root = process.cwd();
 
 
 const readFileDir = (dirPath) => {
-     fsp
+     return fsp
         .readdir(dirPath)
         .then((list) => {
             if (list.length === 0){
@@ -28,26 +29,50 @@ const readFileDir = (dirPath) => {
                     readFileDir(path.dirname(dirPath));
                 })
             } else {
-                return inquirer.prompt({
-                name: 'fileName',
-                type: 'list', //input, number, confirm, list, rawlist, expand, checkbox, password
-                message: 'Choose file',
-                choices: list,
-                })
-                    .then(async ({fileName}) => {
+                return inquirer.prompt([
+                    {
+                        name: 'fileName',
+                        type: 'list', //input, number, confirm, list, rawlist, expand, checkbox, password
+                        message: 'Choose file',
+                        choices: list,
+                    },
+                    {
+                        name: 'findString',
+                        type: 'input',
+                        message: "Enter something for search"
+                    }
+                    ]
+                    )
+                    .then(async ({fileName, findString}) => {
+                        const fullPath = path.join(dirPath,fileName);
 
-                        const src = await fsp.stat(path.join(dirPath,fileName));
+                        const src = await fsp.stat(fullPath);
 
                         if(src.isFile()){
-                             fsp.readFile(path.join(dirPath,fileName), 'utf-8').then(console.log)
+                            return Promise.all([
+                                fsp.readFile(fullPath, 'utf-8'),
+                                Promise.resolve(findString),
+                            ]);
+
                         } else {
-                            readFileDir(path.join(dirPath,fileName))
+                            return readFileDir(fullPath)
                         }
+                    })
+                        // .then(console.log)
+                    .then((result) => {
+                        if(result) {
+                            const [text, findString] = result;
+                            const pattern = new RegExp(findString, 'g');
+                            let count = 0;
+                            const out = text.replace(pattern, () => {
+                                count++;
+                                return colors.red(findString)
+                            });
 
+                            console.log(out, EOL, colors.green(`Found ${count} values`))
+                        }
+                    })
                     }
-                )
-                    }
-
         })
 
 }
