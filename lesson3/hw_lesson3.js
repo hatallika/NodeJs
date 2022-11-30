@@ -1,5 +1,13 @@
-// const fs = require('fs');
 import fs from 'fs';
+import stream from "stream";
+const  {Transform} = stream
+
+import os from "os";
+const {EOL} = os;
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const config = {
     file: "access_tmp.log",
@@ -7,13 +15,6 @@ const config = {
     ipSearch: ["89.123.1.41", "34.48.240.111"],
     suffix: "_requests.log",
 }
-
-// const {Transform} = require("stream");
-// const {EOL} = require("os"); //\n\r
-import {EOL} from "os";
-import {Transform} from "stream"
-
-
 
 const searchIpAndWriteLog = (ip, stream) => {
 
