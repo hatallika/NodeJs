@@ -1,18 +1,27 @@
 {
-  "name": "test",
+  "name": "my_cli",
   "version": "1.0.0",
+  "type": "module",
   "description": "my test",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
     "task": "node lesson2/homework2/task2.js",
     "lesson2": "node lesson2/homework2/task2.js 4-22-11-2023 4-22-12-2022",
+    "lesson3": "node lesson3/hw_lesson3.js",
+    "lesson4": "node lesson4/hw-lesson4.js",
+    "readsomefile": "node lesson4/examples/3-read-with-yargs.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "myreader": "lesson4/hw-lesson4.js"
   },
   "author": "Hatallika",
   "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^9.1.4",
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
     "eslint": "^8.27.0"
