@@ -14,7 +14,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "reader": "lesson4/examples/8-cli.js"
+    "myreader": "lesson4/hw-lesson4.js"
   },
   "author": "Hatallika",
   "license": "ISC",

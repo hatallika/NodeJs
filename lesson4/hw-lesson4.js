@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import inquirer from "inquirer";
 import fsp from 'fs/promises';
 import path from 'path';
@@ -36,29 +37,35 @@ const readFileDir = (dirPath) => {
                         message: 'Choose file',
                         choices: list,
                     },
-                    {
-                        name: 'findString',
-                        type: 'input',
-                        message: "Enter something for search"
-                    }
+                    // {
+                    //     name: 'findString',
+                    //     type: 'input',
+                    //     message: "Enter something for search"
+                    // }
                     ]
                     )
-                    .then(async ({fileName, findString}) => {
+                    .then(async ({fileName}) => {
                         const fullPath = path.join(dirPath,fileName);
 
                         const src = await fsp.stat(fullPath);
 
                         if(src.isFile()){
-                            return Promise.all([
-                                fsp.readFile(fullPath, 'utf-8'),
-                                Promise.resolve(findString),
-                            ]);
+                            return inquirer.prompt({
+                                name: 'findString',
+                                type: 'input',
+                                message: "Enter something for search"
+                            }).then(async ({findString}) => {
+                                return Promise.all([
+                                    fsp.readFile(fullPath, 'utf-8'),
+                                    Promise.resolve(findString),
+                                ]);
+                            })
 
                         } else {
                             return readFileDir(fullPath)
                         }
                     })
-                        // .then(console.log)
+
                     .then((result) => {
                         if(result) {
                             const [text, findString] = result;
