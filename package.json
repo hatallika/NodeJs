@@ -10,6 +10,7 @@
     "lesson2": "node lesson2/homework2/task2.js 4-22-11-2023 4-22-12-2022",
     "lesson3": "node lesson3/hw_lesson3.js",
     "lesson4": "node lesson4/hw-lesson4.js",
+    "lesson5": "node lesson5/hw-lesson5.js",
     "readsomefile": "node lesson4/examples/3-read-with-yargs.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

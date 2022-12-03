@@ -11,6 +11,7 @@ const  {Transform} = stream;
 const host = 'localhost';
 const port = 3000;
 const __root = process.cwd();
+const indexFile = 'src/index.html'; //must contain #filelinks#"
 
 const links = (arr, currentUrl) => {
     if(currentUrl.endsWith("/")){
@@ -27,7 +28,7 @@ const links = (arr, currentUrl) => {
 const renderToIndex = async (data, func) => {
 
         //render for index.html in #filelinks#
-        const filePath  = path.join(__root, './index.html');
+        const filePath  = path.join(__root, indexFile);
         const rs = fs.createReadStream(filePath);
         const ts = new Transform({
             transform(chunk, encoding, callback) {
