@@ -1,11 +1,12 @@
 #!/usr/bin/env node
+import {Worker, workerData} from 'worker_threads';
 import inquirer from "inquirer";
 import fsp from 'fs/promises';
 import path from 'path';
+// const __dirname = process.cwd();
 import readline from 'readline';
 import os from "os";
 import colors from "colors";
-import {Worker} from "worker_threads";
 const {EOL} = os;
 
 const rl = readline.createInterface({
@@ -14,14 +15,14 @@ const rl = readline.createInterface({
 });
 
 const root = process.cwd();
-
 const start = (workerData) => {
     return new Promise((resolve, reject) => {
-        const worker = new Worker('./lesson4/worker.js', {workerData});
+        const worker = new Worker('./worker.js', {workerData});
         worker.on('message', resolve);
         worker.on('error', reject);
     })
 }
+
 
 const readFileDir = (dirPath) => {
      return fsp

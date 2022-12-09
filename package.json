@@ -11,6 +11,8 @@
     "lesson3": "node lesson3/hw_lesson3.js",
     "lesson4": "node lesson4/hw-lesson4.js",
     "lesson5": "node lesson5/hw-lesson5.js",
+    "messenger": "node lesson6/hw_1_messenger/server.js",
+    "filemanager": "node lesson6/hw_2_filemanager/fileserver.js",
     "readsomefile": "node lesson4/examples/3-read-with-yargs.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,6 +25,8 @@
     "colors": "^1.4.0",
     "formidable": "^2.1.1",
     "inquirer": "^9.1.4",
+    "socket.io": "^4.5.4",
+    "unique-names-generator": "^4.7.1",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
