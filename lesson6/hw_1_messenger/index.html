@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mfc logs</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+    <h1>Messenger</h1>
+    <div id="name"></div>
+    <input type="text" id="input" autofocus>
+    <input type="submit" id="send" value="Send"> <br>
+
+    <div id="messages">
+
+
+    </div>
+</body>
+<script type="text/javascript">
+let app = {
+    isConnected: false,
+    interval: null,
+    user: null,
+    socket: null,
+
+    sendConnectStatus: (client_id, message) => {
+        console.log(message);
+        const msgSpan = document.createElement('span');
+        msgSpan.classList.add("connect");
+        msgSpan.innerHTML = message;
+        document.getElementById('messages').append(msgSpan);
+        document.getElementById('messages').append(document.createElement('br'));
+    },
+    connect: function(){
+
+        if(this.socket){
+            this.socket.destroy();
+            delete this.socket;
+            this.socket = null;
+        }
+        this.socket = io.connect('localhost:3000');
+        this.socket.on( 'connect', () =>  {
+            this.isConnected = true;
+            console.log( 'connection with localhost: 3000 created' );
+        } );
+
+        this.socket.on('server_msg', ({msg, name}) => {
+            console.log(msg, name);
+            const msgSpan = document.createElement('span').innerHTML = name + ': ' + msg;
+            document.getElementById('messages').append(msgSpan);
+            document.getElementById('messages').append(document.createElement('br'));
+        });
+
+        this.socket.on('NameForChat', ({client_id, client_name}) => {
+            this.user = {
+                id: client_id,
+                name: client_name
+            };
+
+            document.getElementById('name').innerHTML = `Hello, ${client_name}`;
+        });
+
+        //пользователи должны видеть информацию о подключении нового клиента, об отключении  или переподключении.
+        this.socket.on('client_connect', ({client_name}) => {
+            this.sendConnectStatus(client_name, `Client ${client_name} connected`);
+        });
+
+        this.socket.on('client_disconnect', ({client_name}) => {
+                this.sendConnectStatus(client_name, `Client ${client_name} disconnected`);
+            });
+        this.socket.on('reconnect', ({client_name}) => {
+            this.sendConnectStatus(client_name, `Client ${client_name} reconnect`);
+        });
+
+
+        document.getElementById('send')
+            .onclick = () => {
+            //создадим какое либо событие client-msg
+            this.socket.emit('client-msg', {msg: document.getElementById('input').value, client_name: this.user.name});
+            document.getElementById('input').value = " "
+        }
+
+        return this.socket;
+
+    }
+
+}
+
+    // function connect_status (client_id, message) {
+    //     console.log(message);
+    //     const msgSpan = document.createElement('span');
+    //     msgSpan.classList.add("connect");
+    //     msgSpan.innerHTML = message;
+    //     document.getElementById('messages').append(msgSpan);
+    //     document.getElementById('messages').append(document.createElement('br'));
+    // }
+
+
+    // let user;
+    // const socket = io('localhost:3000');
+    // socket.on('connect', () => console.log(`connection with localhost: 3000 created`));
+    // socket.on('server_msg', ({msg}) => {
+    //     const msgSpan = document.createElement('span').innerHTML = msg;
+    //     document.getElementById('messages').append(msgSpan);
+    //     document.getElementById('messages').append(document.createElement('br'));
+    // });
+    // //событие подключение нового пользователя из броадкаст
+    // socket.on('client_connect', ({client_id}) => {
+    //     connect_status(client_id, `Client ${client_id} connected`);
+    //     user = client_id;
+    // });
+    // socket.on('client_disconnect', ({client_id}) => {
+    //     connect_status(client_id, `Client ${client_id} disconnected`);
+    // });
+
+
+
+
+    //Отправить данные формы
+    // document.getElementById('send')
+    //     .onclick = function () {
+    //     //создадим какое либо событие client-msg
+    //         socket.emit('client-msg', {msg: document.getElementById('input').value});
+    //         document.getElementById('input').value = " "
+    // }
+let socket = app.connect();
+</script>
+
+</html>

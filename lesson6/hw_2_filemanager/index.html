@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lesson 5</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>File manager</h1>
+<div id="counter">Visitors: 1</div>
+#filelinks#
+<script type="text/javascript">
+
+    let counter;
+    const socket = io('localhost:3000');
+    socket.on('connect', () => {
+        console.log(`connection with localhost: 3000 created`);
+    });
+    socket.on('update_counter', ({count}) => {
+        document.getElementById('counter').innerHTML = `Visitors: ${count}`;
+    });
+    socket.on('current_counter', ({count}) => {
+        document.getElementById('counter').innerHTML = `Visitors: ${count}`;
+    });
+
+</script>
+</body>
+</html>
